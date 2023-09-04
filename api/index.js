@@ -50,6 +50,13 @@ const sendVerificationEmail = async (email, verificationToken) => {
     }
 }
 
+const generateSecretKey = () => {
+    const secretKey = crypto.randomBytes(32).toString("hex");
+    return secretKey;
+}
+
+const secretKey = generateSecretKey();
+
 app.post("/register", async(req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -83,5 +90,25 @@ app.get("/verify/:token", async (req, res) => {
         res.status(200).json({ message: "Email verified" });
     } catch (error) {
         res.status(500).json({ message: "Email verification failed" });
+    }
+})
+
+app.post("/login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const user = await User.findOne({email});
+        if(!user){
+            return res.status(404).json({ message: "Invalid email or password" });
+        }
+
+        if (user.password !== password ){
+            return res.status(500).json({ message: "Invalid password" });
+        }
+
+        const token = jwt.sign({ userId: user._id}, secretKey);
+        res.status(200).json({ token: token });
+    } catch (error) {
+        res.status(500).json({ message: "Login Failed" });
     }
 })

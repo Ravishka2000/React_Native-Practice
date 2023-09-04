@@ -1,13 +1,45 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput, Pressable } from 'react-native'
-import React, { useState } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput, Pressable, Alert } from 'react-native'
+import React, { useEffect, useState } from 'react';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginScreen = () => {
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const navigation = useNavigation();
+
+	useEffect( () => {
+		const checkLoginStatus = async () => {
+			try {
+				const token = await AsyncStorage.getItem("authToken");
+				if (token) {
+					navigation.replace("Main");
+				}
+			} catch (error) {
+				console.log("Error: " + error);
+			}
+		};
+		checkLoginStatus();
+	}, [])
+
+	const handleLogin = () => {
+		const user = {
+			email: email,
+			password: password
+		}
+		axios.post("http://localhost:8000/login", user).then((response) => {
+			console.log(response);
+			const token = response.data.token;
+			AsyncStorage.setItem("authToken", token);
+			navigation.replace("Main");
+		}).catch((error) => {
+			Alert.alert("Login Error","Invalid email");
+			console.log(error);
+		})
+	}
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: "white", alignItems: "center" }}>
@@ -62,7 +94,7 @@ const LoginScreen = () => {
 					</Text>
 				</View>
 
-				<Pressable style={{ width: 200, backgroundColor: '#FEBE10', borderRadius: 6, marginLeft: "auto", marginRight: "auto", padding: 15, marginTop: 70 }}>
+				<Pressable style={{ width: 200, backgroundColor: '#FEBE10', borderRadius: 6, marginLeft: "auto", marginRight: "auto", padding: 15, marginTop: 70 }} onPress={handleLogin}>
 					<Text style={{ textAlign: "center", color: "white", fontSize: 16, fontWeight: "bold" }}>Login</Text>
 				</Pressable>
 				<Pressable onPress={() => navigation.navigate("Register")} style={{ marginLeft: "auto", marginRight: "auto", padding: 15, marginTop: 5 }}>
