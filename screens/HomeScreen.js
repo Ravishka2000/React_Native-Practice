@@ -1,14 +1,28 @@
-import { Image, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { FontAwesome, Feather, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import {
+    Image,
+    Platform,
+    Pressable,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import {
+    FontAwesome,
+    Feather,
+    Ionicons,
+    MaterialIcons,
+} from "@expo/vector-icons";
 import { SliderBox } from "react-native-image-slider-box";
-import ProductItem from '../components/ProductItem';
-import axios from 'axios';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { useNavigation } from '@react-navigation/native';
+import ProductItem from "../components/ProductItem";
+import axios from "axios";
+import DropDownPicker from "react-native-dropdown-picker";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
-
     const list = [
         {
             id: "0",
@@ -17,26 +31,22 @@ const HomeScreen = () => {
         },
         {
             id: "1",
-            image:
-                "https://m.media-amazon.com/images/G/31/img20/Events/Jup21dealsgrid/blockbuster.jpg",
+            image: "https://m.media-amazon.com/images/G/31/img20/Events/Jup21dealsgrid/blockbuster.jpg",
             name: "Deals",
         },
         {
             id: "3",
-            image:
-                "https://images-eu.ssl-images-amazon.com/images/I/31dXEvtxidL._AC_SX368_.jpg",
+            image: "https://images-eu.ssl-images-amazon.com/images/I/31dXEvtxidL._AC_SX368_.jpg",
             name: "Electronics",
         },
         {
             id: "4",
-            image:
-                "https://m.media-amazon.com/images/G/31/img20/Events/Jup21dealsgrid/All_Icons_Template_1_icons_01.jpg",
+            image: "https://m.media-amazon.com/images/G/31/img20/Events/Jup21dealsgrid/All_Icons_Template_1_icons_01.jpg",
             name: "Mobiles",
         },
         {
             id: "5",
-            image:
-                "https://m.media-amazon.com/images/G/31/img20/Events/Jup21dealsgrid/music.jpg",
+            image: "https://m.media-amazon.com/images/G/31/img20/Events/Jup21dealsgrid/music.jpg",
             name: "Music",
         },
         {
@@ -56,8 +66,7 @@ const HomeScreen = () => {
             title: "OnePlus Nord CE 3 Lite 5G (Pastel Lime, 8GB RAM, 128GB Storage)",
             oldPrice: 25000,
             price: 19000,
-            image:
-                "https://images-eu.ssl-images-amazon.com/images/G/31/wireless_products/ssserene/weblab_wf/xcm_banners_2022_in_bau_wireless_dec_580x800_once3l_v2_580x800_in-en.jpg",
+            image: "https://images-eu.ssl-images-amazon.com/images/G/31/wireless_products/ssserene/weblab_wf/xcm_banners_2022_in_bau_wireless_dec_580x800_once3l_v2_580x800_in-en.jpg",
             carouselImages: [
                 "https://m.media-amazon.com/images/I/61QRgOgBx0L._SX679_.jpg",
                 "https://m.media-amazon.com/images/I/61uaJPLIdML._SX679_.jpg",
@@ -69,12 +78,10 @@ const HomeScreen = () => {
         },
         {
             id: "30",
-            title:
-                "Samsung Galaxy S20 FE 5G (Cloud Navy, 8GB RAM, 128GB Storage) with No Cost EMI & Additional Exchange Offers",
+            title: "Samsung Galaxy S20 FE 5G (Cloud Navy, 8GB RAM, 128GB Storage) with No Cost EMI & Additional Exchange Offers",
             oldPrice: 74000,
             price: 26000,
-            image:
-                "https://images-eu.ssl-images-amazon.com/images/G/31/img23/Wireless/Samsung/SamsungBAU/S20FE/GW/June23/BAU-27thJune/xcm_banners_2022_in_bau_wireless_dec_s20fe-rv51_580x800_in-en.jpg",
+            image: "https://images-eu.ssl-images-amazon.com/images/G/31/img23/Wireless/Samsung/SamsungBAU/S20FE/GW/June23/BAU-27thJune/xcm_banners_2022_in_bau_wireless_dec_s20fe-rv51_580x800_in-en.jpg",
             carouselImages: [
                 "https://m.media-amazon.com/images/I/81vDZyJQ-4L._SY879_.jpg",
                 "https://m.media-amazon.com/images/I/61vN1isnThL._SX679_.jpg",
@@ -86,12 +93,10 @@ const HomeScreen = () => {
         },
         {
             id: "40",
-            title:
-                "Samsung Galaxy M14 5G (ICY Silver, 4GB, 128GB Storage) | 50MP Triple Cam | 6000 mAh Battery | 5nm Octa-Core Processor | Android 13 | Without Charger",
+            title: "Samsung Galaxy M14 5G (ICY Silver, 4GB, 128GB Storage) | 50MP Triple Cam | 6000 mAh Battery | 5nm Octa-Core Processor | Android 13 | Without Charger",
             oldPrice: 16000,
             price: 14000,
-            image:
-                "https://images-eu.ssl-images-amazon.com/images/G/31/img23/Wireless/Samsung/CatPage/Tiles/June/xcm_banners_m14_5g_rv1_580x800_in-en.jpg",
+            image: "https://images-eu.ssl-images-amazon.com/images/G/31/img23/Wireless/Samsung/CatPage/Tiles/June/xcm_banners_m14_5g_rv1_580x800_in-en.jpg",
             carouselImages: [
                 "https://m.media-amazon.com/images/I/817WWpaFo1L._SX679_.jpg",
                 "https://m.media-amazon.com/images/I/81KkF-GngHL._SX679_.jpg",
@@ -102,12 +107,10 @@ const HomeScreen = () => {
         },
         {
             id: "40",
-            title:
-                "realme narzo N55 (Prime Blue, 4GB+64GB) 33W Segment Fastest Charging | Super High-res 64MP Primary AI Camera",
+            title: "realme narzo N55 (Prime Blue, 4GB+64GB) 33W Segment Fastest Charging | Super High-res 64MP Primary AI Camera",
             oldPrice: 12999,
             price: 10999,
-            image:
-                "https://images-eu.ssl-images-amazon.com/images/G/31/tiyesum/N55/June/xcm_banners_2022_in_bau_wireless_dec_580x800_v1-n55-marchv2-mayv3-v4_580x800_in-en.jpg",
+            image: "https://images-eu.ssl-images-amazon.com/images/G/31/tiyesum/N55/June/xcm_banners_2022_in_bau_wireless_dec_580x800_v1-n55-marchv2-mayv3-v4_580x800_in-en.jpg",
             carouselImages: [
                 "https://m.media-amazon.com/images/I/41Iyj5moShL._SX300_SY300_QL70_FMwebp_.jpg",
                 "https://m.media-amazon.com/images/I/61og60CnGlL._SX679_.jpg",
@@ -118,13 +121,11 @@ const HomeScreen = () => {
     const offers = [
         {
             id: "0",
-            title:
-                "Oppo Enco Air3 Pro True Wireless in Ear Earbuds with Industry First Composite Bamboo Fiber, 49dB ANC, 30H Playtime, 47ms Ultra Low Latency,Fast Charge,BT 5.3 (Green)",
+            title: "Oppo Enco Air3 Pro True Wireless in Ear Earbuds with Industry First Composite Bamboo Fiber, 49dB ANC, 30H Playtime, 47ms Ultra Low Latency,Fast Charge,BT 5.3 (Green)",
             offer: "72% off",
             oldPrice: 7500,
             price: 4500,
-            image:
-                "https://m.media-amazon.com/images/I/61a2y1FCAJL._AC_UL640_FMwebp_QL65_.jpg",
+            image: "https://m.media-amazon.com/images/I/61a2y1FCAJL._AC_UL640_FMwebp_QL65_.jpg",
             carouselImages: [
                 "https://m.media-amazon.com/images/I/61a2y1FCAJL._SX679_.jpg",
                 "https://m.media-amazon.com/images/I/71DOcYgHWFL._SX679_.jpg",
@@ -136,8 +137,7 @@ const HomeScreen = () => {
         },
         {
             id: "1",
-            title:
-                "Fastrack Limitless FS1 Pro Smart Watch|1.96 Super AMOLED Arched Display with 410x502 Pixel Resolution|SingleSync BT Calling|NitroFast Charging|110+ Sports Modes|200+ Watchfaces|Upto 7 Days Battery",
+            title: "Fastrack Limitless FS1 Pro Smart Watch|1.96 Super AMOLED Arched Display with 410x502 Pixel Resolution|SingleSync BT Calling|NitroFast Charging|110+ Sports Modes|200+ Watchfaces|Upto 7 Days Battery",
             offer: "40%",
             oldPrice: 7955,
             price: 3495,
@@ -157,14 +157,15 @@ const HomeScreen = () => {
             oldPrice: 7955,
             price: 3495,
             image: "https://m.media-amazon.com/images/I/41t7Wa+kxPL._AC_SY400_.jpg",
-            carouselImages: ["https://m.media-amazon.com/images/I/41t7Wa+kxPL.jpg"],
+            carouselImages: [
+                "https://m.media-amazon.com/images/I/41t7Wa+kxPL.jpg",
+            ],
             color: "black",
             size: "Normal",
         },
         {
             id: "3",
-            title:
-                "Fastrack Limitless FS1 Pro Smart Watch|1.96 Super AMOLED Arched Display with 410x502 Pixel Resolution|SingleSync BT Calling|NitroFast Charging|110+ Sports Modes|200+ Watchfaces|Upto 7 Days Battery",
+            title: "Fastrack Limitless FS1 Pro Smart Watch|1.96 Super AMOLED Arched Display with 410x502 Pixel Resolution|SingleSync BT Calling|NitroFast Charging|110+ Sports Modes|200+ Watchfaces|Upto 7 Days Battery",
             offer: "40%",
             oldPrice: 24999,
             price: 19999,
@@ -196,12 +197,14 @@ const HomeScreen = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("https://fakestoreapi.com/products");
+                const response = await axios.get(
+                    "https://fakestoreapi.com/products"
+                );
                 setProducts(response.data);
             } catch (error) {
                 console.log("Error fetching", error);
             }
-        }
+        };
         fetchData();
     }, []);
 
@@ -210,71 +213,203 @@ const HomeScreen = () => {
     }, []);
 
     return (
-        <SafeAreaView style={{ paddingTop: Platform.OS === "android" ? 40 : 0, flex: 1, backgroundColor: "white" }}>
+        <SafeAreaView
+            style={{
+                paddingTop: Platform.OS === "android" ? 40 : 0,
+                flex: 1,
+                backgroundColor: "white",
+            }}
+        >
             <ScrollView>
-                <View style={{ backgroundColor: "#00CED1", padding: 10, flexDirection: "row", alignItems: "center" }}>
-                    <Pressable style={{
+                <View
+                    style={{
+                        backgroundColor: "#00CED1",
+                        padding: 10,
                         flexDirection: "row",
                         alignItems: "center",
-                        marginHorizontal: 7,
-                        gap: 10,
-                        backgroundColor: "white",
-                        borderRadius: 3,
-                        height: 38,
-                        flex: 1,
-                        paddingHorizontal: 10,
-                    }}>
+                    }}
+                >
+                    <Pressable
+                        style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            marginHorizontal: 7,
+                            gap: 10,
+                            backgroundColor: "white",
+                            borderRadius: 3,
+                            height: 38,
+                            flex: 1,
+                            paddingHorizontal: 10,
+                        }}
+                    >
                         <FontAwesome name="search" size={22} color="black" />
-                        <TextInput placeholder='Search Amazon.in' />
+                        <TextInput placeholder="Search Amazon.in" />
                     </Pressable>
                     <Feather name="mic" size={24} color="black" />
                 </View>
 
-                <View style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 5,
-                    padding: 10,
-                    backgroundColor: "#AFEEEE"
-                }}>
-                    <Ionicons name="ios-location-outline" size={24} color="black" />
+                <View
+                    style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 5,
+                        padding: 10,
+                        backgroundColor: "#AFEEEE",
+                    }}
+                >
+                    <Ionicons
+                        name="ios-location-outline"
+                        size={24}
+                        color="black"
+                    />
                     <Pressable>
-                        <Text style={{ fontSize: 13, fontWeight: "500" }}>Deliver to Colombo - Sri Lanka</Text>
+                        <Text style={{ fontSize: 13, fontWeight: "500" }}>
+                            Deliver to Colombo - Sri Lanka
+                        </Text>
                     </Pressable>
-                    <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
+                    <MaterialIcons
+                        name="keyboard-arrow-down"
+                        size={24}
+                        color="black"
+                    />
                 </View>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     {list.map((item, index) => (
-                        <Pressable key={index} style={{ margin: 10, justifyContent: "center", alignItems: "center" }}>
-                            <Image style={{ width: 50, height: 50, resizeMode: "contain" }} source={{ uri: item.image }} />
-                            <Text style={{ textAlign: "center", fontSize: 12, fontWeight: "500", marginTop: 5 }}>{item?.name}</Text>
+                        <Pressable
+                            key={index}
+                            style={{
+                                margin: 10,
+                                justifyContent: "center",
+                                alignItems: "center",
+                            }}
+                        >
+                            <Image
+                                style={{
+                                    width: 50,
+                                    height: 50,
+                                    resizeMode: "contain",
+                                }}
+                                source={{ uri: item.image }}
+                            />
+                            <Text
+                                style={{
+                                    textAlign: "center",
+                                    fontSize: 12,
+                                    fontWeight: "500",
+                                    marginTop: 5,
+                                }}
+                            >
+                                {item?.name}
+                            </Text>
                         </Pressable>
                     ))}
                 </ScrollView>
-                <SliderBox images={images} autoplay circleLoop dotColor={"#13274F"} inactiveDotColor="#90A4AE" ImageComponentStyle={{ width: "100%" }} />
-                <Text style={{ padding: 10, fontSize: 18, fontWeight: "bold" }}>Trending Deals of the Week</Text>
-                <View style={{ flexDirection: "row", alignItems: "center", flexWrap: "wrap" }}>
+                <SliderBox
+                    images={images}
+                    autoplay
+                    circleLoop
+                    dotColor={"#13274F"}
+                    inactiveDotColor="#90A4AE"
+                    ImageComponentStyle={{ width: "100%" }}
+                />
+                <Text style={{ padding: 10, fontSize: 18, fontWeight: "bold" }}>
+                    Trending Deals of the Week
+                </Text>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                    }}
+                >
                     {deals.map((item, index) => (
                         <Pressable key={index} style={{}}>
-                            <Image style={{ width: 180, height: 180, resizeMode: "contain" }} source={{ uri: item?.image }} />
+                            <Image
+                                style={{
+                                    width: 180,
+                                    height: 180,
+                                    resizeMode: "contain",
+                                }}
+                                source={{ uri: item?.image }}
+                            />
                         </Pressable>
                     ))}
                 </View>
-                <Text style={{ height: 1, borderColor: "#D0D0D0", borderWidth: 2, marginTop: 15 }} />
+                <Text
+                    style={{
+                        height: 1,
+                        borderColor: "#D0D0D0",
+                        borderWidth: 2,
+                        marginTop: 15,
+                    }}
+                />
 
-                <Text style={{ padding: 10, fontSize: 18, fontWeight: "bold" }}>Today's Deals</Text>
+                <Text style={{ padding: 10, fontSize: 18, fontWeight: "bold" }}>
+                    Today's Deals
+                </Text>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     {offers.map((item, index) => (
-                        <Pressable key={index} style={{ margin: 10, justifyContent: "center", alignItems: "center" }}>
-                            <Image style={{ width: 150, height: 150, resizeMode: "contain" }} source={{ uri: item.image }} />
-                            <View style={{ backgroundColor: "#E31837", paddingVertical: 5, width: 130, justifyContent: "center", alignItems: "center", marginTop: 10, borderRadius: 5 }}>
-                                <Text style={{ textAlign: "center", fontSize: 12, fontWeight: "bold", color: "white" }}>Upto {item?.offer}</Text>
-
+                        <Pressable
+                            onPress={() =>
+                                navigation.navigate("Info", {
+                                    id: item.id,
+                                    title: item.title,
+                                    price: item?.price,
+                                    carouselImages: item.carouselImages,
+                                    color: item?.color,
+                                    size: item?.size,
+                                    oldPrice: item?.oldPrice,
+                                    item: item,
+                                })
+                            }
+                            key={index}
+                            style={{
+                                margin: 10,
+                                justifyContent: "center",
+                                alignItems: "center",
+                            }}
+                        >
+                            <Image
+                                style={{
+                                    width: 150,
+                                    height: 150,
+                                    resizeMode: "contain",
+                                }}
+                                source={{ uri: item.image }}
+                            />
+                            <View
+                                style={{
+                                    backgroundColor: "#E31837",
+                                    paddingVertical: 5,
+                                    width: 130,
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    marginTop: 10,
+                                    borderRadius: 5,
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        textAlign: "center",
+                                        fontSize: 12,
+                                        fontWeight: "bold",
+                                        color: "white",
+                                    }}
+                                >
+                                    Upto {item?.offer}
+                                </Text>
                             </View>
                         </Pressable>
                     ))}
                 </ScrollView>
-                <Text style={{ height: 1, borderColor: "#D0D0D0", borderWidth: 2, marginTop: 15 }} />
+                <Text
+                    style={{
+                        height: 1,
+                        borderColor: "#D0D0D0",
+                        borderWidth: 2,
+                        marginTop: 15,
+                    }}
+                />
 
                 <DropDownPicker
                     style={{
@@ -296,7 +431,13 @@ const HomeScreen = () => {
                     zIndexInverse={1000}
                 />
 
-                <View style={{ flexDirection: "row", alignItems: "center", flexWrap: "wrap" }}>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                    }}
+                >
                     {products
                         ?.filter((item) => item.category === category)
                         .map((item, index) => (
@@ -305,9 +446,9 @@ const HomeScreen = () => {
                 </View>
             </ScrollView>
         </SafeAreaView>
-    )
-}
+    );
+};
 
-export default HomeScreen
+export default HomeScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
