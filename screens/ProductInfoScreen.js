@@ -13,8 +13,8 @@ import { AntDesign, Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-// import { useDispatch, useSelector } from "react-redux";
-// import { addToCart } from "../redux/CartReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../redux/CartReducer";
 
 const ProductInfoScreen = () => {
     const route = useRoute();
@@ -22,16 +22,16 @@ const ProductInfoScreen = () => {
     const navigation = useNavigation();
     const [addedToCart, setAddedToCart] = useState(false);
     const height = (width * 100) / 100;
-    // const dispatch = useDispatch();
-    // const addItemToCart = (item) => {
-    //     setAddedToCart(true);
-    //     dispatch(addToCart(item));
-    //     setTimeout(() => {
-    //         setAddedToCart(false);
-    //     }, 60000);
-    // };
-    // const cart = useSelector((state) => state.cart.cart);
-    // console.log(cart);
+    const dispatch = useDispatch();
+    const addItemToCart = (item) => {
+        setAddedToCart(true);
+        dispatch(addToCart(item));
+        setTimeout(() => {
+            setAddedToCart(false);
+        }, 60000);
+    };
+    const cart = useSelector((state) => state.cart.cart);
+    console.log(cart);
     return (
         <ScrollView
             style={{ marginTop: 55, flex: 1, backgroundColor: "white" }}
